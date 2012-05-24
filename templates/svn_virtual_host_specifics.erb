@@ -1,0 +1,23 @@
+        <Location "<%= svn_location %>">
+            DAV svn
+            SVNParentPath <%= svn_parent_path %>
+
+            Order deny,allow
+            Deny from all
+
+            # Authentication: Digest
+            AuthName "<%= auth_name %>"
+            AuthType Digest
+            AuthUserFile <%= auth_file %>
+
+            # Authorization: Path-based access control; try anonymous access
+            #                first, but authenticate if necessary
+            AuthzSVNAccessFile <%= access_file %>
+            Require valid-user
+<% allowed_hosts.each do |allowed_host| -%>
+            Allow from <%= allowed_host %>
+<% end -%> 
+            Satisfy Any
+        </Location>
+
+        <%= virtualhost_specifics %>
